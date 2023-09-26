@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import type { Task } from 'types/task';
+import { Task } from './task';
 
 
 let taskList: Task[] = [];
@@ -29,7 +29,7 @@ const submitTask = (event: Event) => {
         title: input.value,
         completed: false
     }
-    taskList.push(task)
+    taskList.push(task);
     addListItem(task);
     saveTasksToLocalStorage(taskList);
     
@@ -41,7 +41,7 @@ function addListItem(task: Task){
     taskElement.innerHTML = task.title;
 
     const deleteButton = document.createElement('button') as HTMLButtonElement;
-    deleteButton.addEventListener('click', (event: Event)=>{
+    deleteButton.addEventListener('click', ()=>{
         deleteButton.parentElement?.remove();
         removeTaskById(task, taskList);
     })
@@ -50,7 +50,8 @@ function addListItem(task: Task){
     
     const checkbox = document.createElement('input') as HTMLInputElement;
     checkbox.type = 'checkbox'
-    checkbox.addEventListener('change', (event: Event)=>{
+    checkbox.checked = task.completed;
+    checkbox.addEventListener('change', ()=>{
         task.completed = !task.completed;
         saveTasksToLocalStorage(taskList);
     })
@@ -74,6 +75,6 @@ function loadTasksFromLocalStorage(){
 }
 
 function clearTasksFromLocalStorage(){
-    localStorage.clear()
+    localStorage.clear();
 }
     
