@@ -12,13 +12,14 @@ const unorderedList = document.querySelector<HTMLUListElement>("#unordered-list"
 const form = document.querySelector<HTMLFormElement>("#new-task-form")
 const input = document.querySelector<HTMLInputElement>("#new-task-title")
 const clearButton = document.querySelector<HTMLButtonElement>('#clear-button')
-clearButton?.addEventListener('click', () => {
-    if(confirm('Are you sure you want to clear all tasks, this process cannot be undone')){
+clearButton?.addEventListener('click', async () => {
+    const accept = await confirm('Are you sure you want to clear all tasks, this process cannot be undone')
+    if(accept){
         clearTasksFromLocalStorage();
         taskList = [];
-    }
-    while(unorderedList?.hasChildNodes()){
-        unorderedList.removeChild(unorderedList.firstChild as Node);
+        while(unorderedList?.hasChildNodes()){
+            unorderedList.removeChild(unorderedList.firstChild as Node);
+        }
     }
 })
 
