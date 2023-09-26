@@ -1,9 +1,13 @@
 import { nanoid } from 'nanoid'
 import { Task } from './task';
+import { createExportFile } from './fileSystemOperations';
 
+// console.log('message')
+// invoke('greet').then((message) => {console.log(typeof message)})
 
 let taskList: Task[] = [];
-
+const exportButton = document.querySelector<HTMLButtonElement>('#export-button')
+exportButton?.addEventListener('click', () => createExportFile(taskList))
 const unorderedList = document.querySelector<HTMLUListElement>("#unordered-list")
 const form = document.querySelector<HTMLFormElement>("#new-task-form")
 const input = document.querySelector<HTMLInputElement>("#new-task-title")
