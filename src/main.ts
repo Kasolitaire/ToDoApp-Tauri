@@ -64,6 +64,7 @@ function addListItem(task: Task){
     taskElement.appendChild(deleteButton);
     
     unorderedList?.appendChild(taskElement);
+    form?.reset();
 }
 
 function removeTaskById(taskArg: Task, taskListRef: Task[]){
