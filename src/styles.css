@@ -107,3 +107,18 @@ button {
     background-color: #0f0f0f69;
   }
 }
+
+form{
+  margin: auto;
+  width: 50%;
+}
+ul{
+}
+li
+{
+  padding: 10px;
+}
+.center{
+  margin: auto;
+  width: 25%;
+}
