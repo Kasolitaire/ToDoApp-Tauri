@@ -1,13 +1,14 @@
 import { nanoid } from 'nanoid'
 import { Task } from './task';
 import { createExportFile } from './fileSystemOperations';
+import { clearTasksFromLocalStorage, loadTasksFromLocalStorage, saveTasksToLocalStorage } from './localStorageOperations';
 
 // console.log('message')
 // invoke('greet').then((message) => {console.log(typeof message)})
 
 let taskList: Task[] = [];
 const exportButton = document.querySelector<HTMLButtonElement>('#export-button')
-exportButton?.addEventListener('click', () => createExportFile(taskList))
+exportButton?.addEventListener('click', () => createExportFile(loadTasksFromLocalStorage()))
 const unorderedList = document.querySelector<HTMLUListElement>("#unordered-list")
 const form = document.querySelector<HTMLFormElement>("#new-task-form")
 const input = document.querySelector<HTMLInputElement>("#new-task-title")
@@ -23,7 +24,7 @@ clearButton?.addEventListener('click', async () => {
     }
 })
 
-loadTasksFromLocalStorage();
+renderTasks();
 
 const submitTask = (event: Event) => {
     event.preventDefault();
@@ -71,16 +72,9 @@ function removeTaskById(taskArg: Task, taskListRef: Task[]){
     taskListRef = taskListRef.filter((task) => task.id != taskArg.id)
     saveTasksToLocalStorage(taskListRef);
 }
-function saveTasksToLocalStorage(taskList: Task[]){
-    localStorage.setItem('taskListLocalStorage', JSON.stringify(taskList));
-}
-function loadTasksFromLocalStorage(){
-    const taskListStringForm: string | null = localStorage.getItem('taskListLocalStorage')
-    if(taskListStringForm != null) taskList = JSON.parse(taskListStringForm) as Task[];
+
+function renderTasks(){
+    let taskList: Task[] = loadTasksFromLocalStorage();
     taskList.forEach((task: Task) => addListItem(task))
 }
 
-function clearTasksFromLocalStorage(){
-    localStorage.clear();
-}
-    
