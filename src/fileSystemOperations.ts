@@ -27,5 +27,21 @@ export const selectDirectory = async () => {
     catch (error) {
         console.log(error)
     }
+}
 
+export const selectFilePath = async () => {
+    try {
+        const selectedFilePath = await open({
+            directory: false,
+            multiple: false,
+            title: 'Select File Path'
+        })
+        return selectedFilePath
+    } 
+    catch (error) {
+        console.log(error)
+    }
+}
+export const readExportedFile = () => {
+    //need to implement
 }
