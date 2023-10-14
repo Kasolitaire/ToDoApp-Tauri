@@ -7,7 +7,7 @@ use log::debug;
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
 fn create_export_file(directory: String, stringify_data: String){
-    let mut file = File::create(directory + r"\test.txt").expect("file not created");
+    let mut file = File::create(directory + r"\ToDoApp-Import.txt").expect("file not created");
     file.write_all(stringify_data.as_bytes()).expect("failed to write to file");
 }
 

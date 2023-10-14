@@ -1,6 +1,7 @@
 import { open } from "@tauri-apps/api/dialog";
 import { invoke } from '@tauri-apps/api/tauri';
 import { Task } from './task';
+import { saveTasksToLocalStorage, loadTasksFromLocalStorage } from "./localStorageOperations";
 
 export const createExportFile = async (taskList: Task[]) => {
     const stringifyData = JSON.stringify(taskList)
@@ -42,6 +43,7 @@ export const selectFilePath = async () => {
         console.log(error)
     }
 }
-export const readExportedFile = () => {
-    //need to implement
+export const readExportedFile = async () => {
+    const selectedFilePath = await selectFilePath()
+    await invoke('read_export_file', {filePath: selectedFilePath}).then((data: unknown) => saveTasksToLocalStorage(data as string));
 }

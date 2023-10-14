@@ -4,8 +4,13 @@ export function clearTasksFromLocalStorage(){
     localStorage.clear();
 }
  
-export function saveTasksToLocalStorage(taskList: Task[]){
-    localStorage.setItem('taskListLocalStorage', JSON.stringify(taskList));
+export function saveTasksToLocalStorage(taskData: Task[] | string){
+    if(typeof taskData === "string") {
+        localStorage.setItem('taskListLocalStorage', taskData);
+    }
+    else {
+        localStorage.setItem('taskListLocalStorage', JSON.stringify(taskData));
+    }
 }
 
 export function loadTasksFromLocalStorage(): Task[]{

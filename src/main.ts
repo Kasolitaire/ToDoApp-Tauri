@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import { Task } from './task';
-import { createExportFile } from './fileSystemOperations';
-import { clearTasksFromLocalStorage, loadTasksFromLocalStorage, saveTasksToLocalStorage } from './localStorageOperations';
+import { createExportFile, readExportedFile } from './fileSystemOperations';
+import { clearTasksFromLocalStorage, loadTasksFromLocalStorage, saveTasksToLocalStorage} from './localStorageOperations';
 
 // console.log('message')
 // invoke('greet').then((message) => {console.log(typeof message)})
@@ -9,6 +9,12 @@ import { clearTasksFromLocalStorage, loadTasksFromLocalStorage, saveTasksToLocal
 let taskList: Task[] = [];
 const exportButton = document.querySelector<HTMLButtonElement>('#export-button')
 exportButton?.addEventListener('click', () => createExportFile(loadTasksFromLocalStorage()))
+const importButton = document.querySelector<HTMLButtonElement>('#import-button')
+importButton?.addEventListener('click', async () => {
+    await readExportedFile();
+    if(unorderedList != null) clearRenderedTasks(taskList, unorderedList);
+    renderTasks();
+})
 const unorderedList = document.querySelector<HTMLUListElement>("#unordered-list")
 const form = document.querySelector<HTMLFormElement>("#new-task-form")
 const input = document.querySelector<HTMLInputElement>("#new-task-title")
@@ -17,15 +23,11 @@ clearButton?.addEventListener('click', async () => {
     const accept = await confirm('Are you sure you want to clear all tasks, this process cannot be undone')
     if(accept){
         clearTasksFromLocalStorage();
-        taskList = [];
-        while(unorderedList?.hasChildNodes()){
-            unorderedList.removeChild(unorderedList.firstChild as Node);
-        }
+        if(unorderedList != null) clearRenderedTasks(taskList, unorderedList)
     }
 })
 
 renderTasks();
-
 const submitTask = (event: Event) => {
     event.preventDefault();
     if(input?.value == '' || input == null) return;
@@ -76,5 +78,12 @@ function removeTaskById(taskArg: Task, taskListRef: Task[]){
 function renderTasks(){
     let taskList: Task[] = loadTasksFromLocalStorage();
     taskList.forEach((task: Task) => addListItem(task))
+}
+
+function clearRenderedTasks(taskList: Task[], ul: HTMLUListElement){
+    taskList = [];
+        while(ul?.hasChildNodes()){
+            ul.removeChild(ul.firstChild as Node);
+        }
 }
 
